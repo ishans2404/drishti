@@ -50,24 +50,15 @@ type NavItem = {
 
 const navSections: Array<{ title: string; items: NavItem[] }> = [
   {
-    title: "Main",
+    title: "User Management",
     items: [
       { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-      { href: "/admin/displays", label: "Displays", icon: Monitor },
-      { href: "/admin/notices", label: "Notice Board", icon: FileText },
-      { href: "/admin/events", label: "News/Event Master", icon: Calendar },
-      {
-        href: "/admin/gallery?type=photo",
-        label: "Photo Gallery",
-        icon: Image,
-        match: { path: "/admin/gallery", type: "photo" },
-      },
+      { href: "/admin/under-users", label: "Under Users", icon: Users },
     ],
   },
   {
-    title: "Legacy Modules",
+    title: "Screen Management",
     items: [
-      { href: "/admin/under-users", label: "Under Users", icon: Users },
       { href: "/admin/settings", label: "Screen Info", icon: Settings },
       {
         href: "/admin/gallery?type=header",
@@ -80,6 +71,14 @@ const navSections: Array<{ title: string; items: NavItem[] }> = [
         label: "Image Slider",
         icon: SlidersHorizontal,
         match: { path: "/admin/gallery", type: "slider" },
+      },
+      { href: "/admin/notices", label: "Notice Board", icon: FileText },
+      { href: "/admin/events", label: "News/Event Master", icon: Calendar },
+      {
+        href: "/admin/gallery?type=photo",
+        label: "Photo Gallery",
+        icon: Image,
+        match: { path: "/admin/gallery", type: "photo" },
       },
       {
         href: "/admin/gallery?type=video",
@@ -109,7 +108,13 @@ const navSections: Array<{ title: string; items: NavItem[] }> = [
     ],
   },
   {
-    title: "Additional Modules",
+    title: "Displays",
+    items: [
+      { href: "/admin/displays", label: "Manage Displays", icon: Monitor },
+    ],
+  },
+  {
+    title: "Additional",
     items: [
       { href: "/admin/timetable", label: "Timetable", icon: Clock },
       { href: "/admin/birthdays", label: "Birthdays", icon: Cake },
@@ -137,11 +142,14 @@ export function AdminSidebar() {
   return (
     <aside className="flex h-screen w-64 flex-col bg-sidebar text-sidebar-foreground">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2 border-b border-sidebar-border px-4">
-        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground font-bold">
-          D
+      <div className="flex h-16 items-center gap-3 border-b border-sidebar-border px-4">
+        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground font-bold text-sm">
+          EG
         </div>
-        <span className="font-semibold text-lg">Drishti</span>
+        <div>
+          <span className="font-bold text-base tracking-tight">EG Drishti</span>
+          <p className="text-[10px] text-sidebar-foreground/40 leading-none mt-0.5">Digital Notice Board</p>
+        </div>
       </div>
 
       {/* Org Switcher */}

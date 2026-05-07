@@ -4,10 +4,6 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { createClient, getSupabaseConfig } from "@/lib/supabase/client"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("")
@@ -55,79 +51,51 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xl">
-            D
-          </div>
-          <CardTitle className="text-2xl">Create your account</CardTitle>
-          <CardDescription>
-            Get started with Drishti digital displays
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {error && (
-              <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-                {error}
-              </div>
-            )}
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="fullName">Full Name</Label>
-              <Input
-                id="fullName"
-                type="text"
-                placeholder="John Doe"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
+    <div className="flex min-h-screen items-center justify-center bg-slate-950 p-6">
+      <div className="w-full max-w-sm">
+        <div className="flex items-center gap-2 mb-8">
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-blue-500 text-white font-bold text-xs">EG</div>
+          <span className="text-white font-semibold">EG Drishti</span>
+        </div>
+        <h1 className="text-2xl font-bold text-white mb-1">Create account</h1>
+        <p className="text-slate-400 text-sm mb-8">Set up your organization&apos;s digital notice board</p>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {error && (
+            <div className="rounded-lg bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-400">{error}</div>
+          )}
+          {[
+            { id: "fullName", label: "Full Name", type: "text", placeholder: "Dr. Ramesh Kumar", value: fullName, setter: setFullName, required: true },
+            { id: "orgName", label: "Organization Name", type: "text", placeholder: "CGSACS Hospital", value: orgName, setter: setOrgName, required: false },
+            { id: "email", label: "Email", type: "email", placeholder: "admin@hospital.org", value: email, setter: setEmail, required: true },
+            { id: "password", label: "Password", type: "password", placeholder: "Min. 6 characters", value: password, setter: setPassword, required: true },
+          ].map((f) => (
+            <div key={f.id} className="flex flex-col gap-1.5">
+              <label htmlFor={f.id} className="text-sm text-slate-400">{f.label}</label>
+              <input
+                id={f.id}
+                type={f.type}
+                placeholder={f.placeholder}
+                value={f.value}
+                onChange={(e) => f.setter(e.target.value)}
+                required={f.required}
+                minLength={f.id === "password" ? 6 : undefined}
+                className="h-10 rounded-lg border border-slate-700 bg-slate-800/60 px-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 transition"
               />
             </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="orgName">Organization Name</Label>
-              <Input
-                id="orgName"
-                type="text"
-                placeholder="Acme School"
-                value={orgName}
-                onChange={(e) => setOrgName(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="admin@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-              />
-            </div>
-            <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? "Creating account..." : "Create Account"}
-            </Button>
-            <p className="text-center text-sm text-muted-foreground">
-              Already have an account?{" "}
-              <Link href="/auth/login" className="text-primary hover:underline">
-                Sign in
-              </Link>
-            </p>
-          </form>
-        </CardContent>
-      </Card>
+          ))}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="h-10 rounded-lg bg-blue-600 text-sm font-medium text-white hover:bg-blue-500 disabled:opacity-50 transition mt-2"
+          >
+            {isLoading ? "Creating account…" : "Create Account"}
+          </button>
+          <p className="text-center text-sm text-slate-500">
+            Already have an account?{" "}
+            <Link href="/auth/login" className="text-blue-400 hover:text-blue-300">Sign in</Link>
+          </p>
+        </form>
+      </div>
     </div>
   )
 }

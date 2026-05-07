@@ -7,8 +7,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Drishti - Digital Display Platform',
-  description: 'Create and manage digital notice boards for your organization',
+  title: 'EG Drishti - Smart Vision Admin',
+  description: 'Digital notice board management for hospitals, schools, and offices',
   generator: 'v0.app',
   icons: {
     icon: [

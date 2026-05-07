@@ -74,7 +74,7 @@ export default function AdminDashboardPage() {
     <div className="flex flex-col">
       <AdminHeader 
         title="Dashboard" 
-        description="Welcome to Admin Panel"
+        description="Welcome to EG Drishti Admin Panel"
       />
       
       <div className="flex-1 p-6">
@@ -139,7 +139,7 @@ export default function AdminDashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Common tasks to get started</CardDescription>
+              <CardDescription>Manage your notice board content</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-2">
               <Button asChild className="justify-start">
