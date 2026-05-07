@@ -1,0 +1,13 @@
+[     735ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVmUiAo.woff2 @ https://egdrishti.com/user-admin/screen_show_section_master/master.php:392
+[     736ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://egdrishti.com/user-admin/assets/fonts/Simple-Line-Iconsb26c.woff2?v=2.4.0 @ https://egdrishti.com/user-admin/screen_show_section_master/master.php:392
+[     736ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://egdrishti.com/user-admin/assets/fonts/fontawesome-webfont3e6e.woff2?v=4.7.0 @ https://egdrishti.com/user-admin/screen_show_section_master/master.php:392
+[     746ms] Unexpected token '<'
+[     887ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://egdrishti.com/user-admin/screen_show_section_master/assets/dragdropmenu/js/jquery-ui.min.js:0
+[    2394ms] [WARNING] jQuery.Deferred exception: $(...).popover is not a function TypeError: $(...).popover is not a function
+    at HTMLDocument.<anonymous> (https://egdrishti.com/user-admin/assets/js/app-script.js:57:32)
+    at e (https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:2:27028)
+    at t (https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:2:27330) undefined @ https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:1
+[    2415ms] Uncaught TypeError: $(...).popover is not a function
+    at <anonymous> (https://egdrishti.com/user-admin/assets/js/app-script.js:56:31)
+    at e (https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:1:27027)
+    at t (https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:1:27329)

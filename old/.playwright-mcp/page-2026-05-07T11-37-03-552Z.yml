@@ -1,0 +1,120 @@
+- generic [ref=e2]:
+  - generic [ref=e7]:
+    - link "CGSACS" [ref=e9] [cursor=pointer]:
+      - /url: ""
+      - heading "CGSACS" [level=5] [ref=e10]:
+        - img [ref=e11]
+        - text: CGSACS
+    - list [ref=e12]:
+      - listitem [ref=e13]:
+        - generic [ref=e14]:
+          - textbox "ctrl + /" [ref=e15]
+          - link "":
+            - /url: javascript:void();
+            - generic [ref=e16] [cursor=pointer]: 
+      - listitem [ref=e17]:
+        - link "Dashboard" [ref=e18] [cursor=pointer]:
+          - /url: ../user_management/dashboard.php
+          - generic [ref=e19]: 
+          - text: Dashboard
+      - listitem [ref=e20]:
+        - link "Under Users" [ref=e21] [cursor=pointer]:
+          - /url: ../user_management/under_users.php
+          - generic [ref=e22]: 
+          - text: Under Users
+      - listitem [ref=e23]:
+        - link "Screen Info" [ref=e24] [cursor=pointer]:
+          - /url: ../screen-info/master.php
+          - generic [ref=e26]: 
+          - text: Screen Info
+      - list
+      - listitem [ref=e27]:
+        - link "Header Right Side" [ref=e28] [cursor=pointer]:
+          - /url: ../screen_logo_or_minister/master.php
+          - generic [ref=e30]: 
+          - text: Header Right Side
+      - list
+      - listitem [ref=e31]:
+        - link "Image Slider" [ref=e32] [cursor=pointer]:
+          - /url: ../screen_banner_master/master.php
+          - generic [ref=e34]: 
+          - text: Image Slider
+      - list
+      - listitem [ref=e35]:
+        - link "Notice Board" [ref=e36] [cursor=pointer]:
+          - /url: ../screen_notice_board/master.php
+          - generic [ref=e38]: 
+          - text: Notice Board
+      - list
+      - listitem [ref=e39]:
+        - link "News/Event Master" [ref=e40] [cursor=pointer]:
+          - /url: ../screen_news_master/master.php
+          - generic [ref=e42]: 
+          - text: News/Event Master
+      - list
+      - listitem [ref=e43]:
+        - link "Photo Gallery" [ref=e44] [cursor=pointer]:
+          - /url: ../screen_photo_gallery/master.php
+          - generic [ref=e46]: 
+          - text: Photo Gallery
+      - list
+      - listitem [ref=e47]:
+        - link "Video Gallery" [ref=e48] [cursor=pointer]:
+          - /url: ../screen_video_gallery/master.php
+          - generic [ref=e50]: 
+          - text: Video Gallery
+      - list
+      - listitem [ref=e51]:
+        - link "Audio Master" [ref=e52] [cursor=pointer]:
+          - /url: ../screen_for_audio/master.php
+          - generic [ref=e54]: 
+          - text: Audio Master
+      - list
+      - listitem [ref=e55]:
+        - link "Section Show/Hide" [ref=e56] [cursor=pointer]:
+          - /url: ../screen_show_section_master/master.php
+          - generic [ref=e58]: 
+          - text: Section Show/Hide
+      - list
+      - listitem [ref=e59]:
+        - link "Template Preview" [ref=e60] [cursor=pointer]:
+          - /url: ../screen_template_master/master.php
+          - generic [ref=e62]: 
+          - text: Template Preview
+      - list
+      - listitem [ref=e63]:
+        - link "Footer Master" [ref=e64] [cursor=pointer]:
+          - /url: ../screen_footer_master/master.php
+          - generic [ref=e66]: 
+          - text: Footer Master
+      - list
+  - banner:
+    - navigation [ref=e67]:
+      - list [ref=e68]:
+        - listitem [ref=e69]:
+          - link "" [ref=e70] [cursor=pointer]:
+            - /url: javascript:void();
+            - generic [ref=e71]: 
+        - listitem [ref=e72]:
+          - link "Logout" [ref=e73] [cursor=pointer]:
+            - /url: ../logout.php
+            - generic [ref=e74]: 
+            - text: Logout
+        - listitem [ref=e75]:
+          - generic [ref=e76]: ADMIN
+          - link "( https://egdrishti.com/cgsacs-hospital )" [ref=e77] [cursor=pointer]:
+            - /url: https://egdrishti.com/cgsacs-hospital
+  - generic [ref=e81]:
+    - heading "Image Slider" [level=4] [ref=e82]
+    - separator [ref=e83]
+    - button "Add Data" [ref=e86] [cursor=pointer]:
+      - generic [ref=e87]: 
+      - text: Add Data
+    - grid [ref=e90]:
+      - rowgroup [ref=e91]:
+        - 'row "S.No.: activate to sort column descending Action: activate to sort column ascending Image: activate to sort column ascending" [ref=e92]':
+          - 'columnheader "S.No.: activate to sort column descending" [ref=e93]': S.No.
+          - 'columnheader "Action: activate to sort column ascending" [ref=e94]': Action
+          - 'columnheader "Image: activate to sort column ascending" [ref=e95]': Image
+      - rowgroup
+  - text:  

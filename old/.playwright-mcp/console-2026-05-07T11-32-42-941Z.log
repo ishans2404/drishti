@@ -1,0 +1,9 @@
+[     216ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://egdrishti.com/user-admin/screen_footer_master/assets/images/tick.png:0
+[     616ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVmUiAo.woff2 @ https://egdrishti.com/user-admin/screen_footer_master/master.php:463
+[     616ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://egdrishti.com/user-admin/assets/fonts/Simple-Line-Iconsb26c.woff2?v=2.4.0 @ https://egdrishti.com/user-admin/screen_footer_master/master.php:463
+[     616ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://egdrishti.com/user-admin/assets/fonts/fontawesome-webfont3e6e.woff2?v=4.7.0 @ https://egdrishti.com/user-admin/screen_footer_master/master.php:463
+[     618ms] Unexpected token '<'
+[    1073ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVn6iArmlw.woff2 @ https://egdrishti.com/user-admin/assets/datatable/js/datatables.min.js:6
+[   26455ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://egdrishti.com/user-admin/searchsidebarmenu.php:0
+[   26760ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://egdrishti.com/user-admin/searchsidebarmenu.php:0
+[   27614ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://egdrishti.com/user-admin/searchsidebarmenu.php:0

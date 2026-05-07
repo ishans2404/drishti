@@ -1,0 +1,14 @@
+[     573ms] Unexpected token '<'
+[     605ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://egdrishti.com/user-admin/screen-info/master.php:0
+[     920ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://egdrishti.com/user-admin/screen-info/assets/images/tick.png:0
+[     929ms] TypeError: Cannot read properties of undefined (reading 'mData')
+    at HTMLTableCellElement.<anonymous> (https://egdrishti.com/user-admin/assets/datatable/js/datatables.min.js:90:412)
+    at n.each (https://egdrishti.com/user-admin/assets/js/jquery.min.js:2:2861)
+    at HTMLTableElement.<anonymous> (https://egdrishti.com/user-admin/assets/datatable/js/datatables.min.js:90:350)
+    at n.each (https://egdrishti.com/user-admin/assets/js/jquery.min.js:2:2861)
+    at n.fn.init.each (https://egdrishti.com/user-admin/assets/js/jquery.min.js:2:845)
+    at n.fn.init.m [as dataTable] (https://egdrishti.com/user-admin/assets/datatable/js/datatables.min.js:83:22)
+    at Object.success (https://egdrishti.com/user-admin/screen-info/master.php:1142:36)
+    at i (https://egdrishti.com/user-admin/assets/js/jquery.min.js:2:27151)
+    at Object.fireWith [as resolveWith] (https://egdrishti.com/user-admin/assets/js/jquery.min.js:2:27914)
+    at z (https://egdrishti.com/user-admin/assets/js/jquery.min.js:4:12059)

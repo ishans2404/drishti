@@ -1,0 +1,5 @@
+[     782ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://egdrishti.com/user-admin/screen_for_audio/assets/images/tick.png:0
+[     822ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVmUiAo.woff2 @ https://egdrishti.com/user-admin/screen_for_audio/master.php:462
+[     823ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://egdrishti.com/user-admin/assets/fonts/Simple-Line-Iconsb26c.woff2?v=2.4.0 @ https://egdrishti.com/user-admin/screen_for_audio/master.php:462
+[     823ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://egdrishti.com/user-admin/assets/fonts/fontawesome-webfont3e6e.woff2?v=4.7.0 @ https://egdrishti.com/user-admin/screen_for_audio/master.php:462
+[     827ms] Unexpected token '<'
