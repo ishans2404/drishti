@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { AdminHeader } from "@/components/admin/header"
 import { useOrg } from "@/lib/org-context"
 import { createClient } from "@/lib/supabase/client"
@@ -31,6 +32,17 @@ import { Plus, Code, Pencil, Trash2 } from "lucide-react"
 
 export default function CustomContentPage() {
   const { currentOrg } = useOrg()
+  const searchParams = useSearchParams()
+  const isFooterMode = searchParams.get("type") === "footer"
+  const pageTitle = isFooterMode ? "Footer Master" : "Custom Content"
+  const pageDescription = isFooterMode
+    ? "Manage footer content and links"
+    : "Create custom HTML content blocks"
+  const emptyTitle = isFooterMode ? "No footer content yet" : "No custom content yet"
+  const emptyDescription = isFooterMode
+    ? "Add footer content to appear across displays."
+    : "Create custom HTML blocks for your displays."
+  const addLabel = isFooterMode ? "Add Footer Item" : "Add Content"
   const [items, setItems] = useState<CustomContent[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -134,8 +146,8 @@ export default function CustomContentPage() {
   return (
     <div className="flex flex-col">
       <AdminHeader 
-        title="Custom Content" 
-        description="Create custom HTML content blocks"
+        title={pageTitle} 
+        description={pageDescription}
       />
 
       <div className="flex-1 p-6">
@@ -145,7 +157,7 @@ export default function CustomContentPage() {
           </p>
           <Button onClick={openCreateModal}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Content
+            {addLabel}
           </Button>
         </div>
 
@@ -156,13 +168,13 @@ export default function CustomContentPage() {
         ) : items.length === 0 ? (
           <Card className="py-12 text-center">
             <Code className="mx-auto h-12 w-12 text-muted-foreground" />
-            <h3 className="mt-4 text-lg font-medium">No custom content yet</h3>
+            <h3 className="mt-4 text-lg font-medium">{emptyTitle}</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Create custom HTML blocks for your displays.
+              {emptyDescription}
             </p>
             <Button onClick={openCreateModal} className="mt-4">
               <Plus className="mr-2 h-4 w-4" />
-              Add Content
+              {addLabel}
             </Button>
           </Card>
         ) : (
@@ -229,12 +241,14 @@ export default function CustomContentPage() {
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>
-              {editingItem ? "Edit Content" : "Add Content"}
+              {editingItem ? `Edit ${isFooterMode ? "Footer Item" : "Content"}` : addLabel}
             </DialogTitle>
             <DialogDescription>
               {editingItem
-                ? "Update your custom HTML content."
-                : "Create a custom HTML content block."}
+                ? isFooterMode
+                  ? "Update your footer content."
+                  : "Update your custom HTML content."
+                : pageDescription}
             </DialogDescription>
           </DialogHeader>
 

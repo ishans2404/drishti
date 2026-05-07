@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { AdminHeader } from "@/components/admin/header"
 import { useOrg } from "@/lib/org-context"
 import { createClient } from "@/lib/supabase/client"
@@ -25,10 +26,80 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Plus, Image, Trash2, Video } from "lucide-react"
+import { Plus, Image, Trash2, Video, Music } from "lucide-react"
+
+type MediaType = "image" | "video" | "audio" | "header" | "slider"
+
+const galleryTypeConfig = {
+  photo: {
+    title: "Photo Gallery",
+    description: "Manage photos for your displays",
+    emptyTitle: "No photos yet",
+    emptyDescription: "Add photos to display on your boards.",
+    addLabel: "Add Photo",
+    fixedType: "image" as MediaType,
+    icon: Image,
+  },
+  video: {
+    title: "Video Gallery",
+    description: "Manage video links and previews",
+    emptyTitle: "No videos yet",
+    emptyDescription: "Add videos for playback or preview.",
+    addLabel: "Add Video",
+    fixedType: "video" as MediaType,
+    icon: Video,
+  },
+  audio: {
+    title: "Audio Master",
+    description: "Manage audio files for announcements",
+    emptyTitle: "No audio files yet",
+    emptyDescription: "Add audio files or links for playback.",
+    addLabel: "Add Audio",
+    fixedType: "audio" as MediaType,
+    icon: Music,
+  },
+  header: {
+    title: "Header Right Side",
+    description: "Manage right-side header images",
+    emptyTitle: "No header images yet",
+    emptyDescription: "Add images for the header right side.",
+    addLabel: "Add Image",
+    fixedType: "header" as MediaType,
+    icon: Image,
+  },
+  slider: {
+    title: "Image Slider",
+    description: "Manage slider images",
+    emptyTitle: "No slider images yet",
+    emptyDescription: "Add images for the slider rotation.",
+    addLabel: "Add Slide",
+    fixedType: "slider" as MediaType,
+    icon: Image,
+  },
+} as const
+
+const mediaTypeLabels: Record<MediaType, string> = {
+  image: "Image",
+  video: "Video",
+  audio: "Audio",
+  header: "Header Image",
+  slider: "Slider Image",
+}
 
 export default function GalleryPage() {
   const { currentOrg } = useOrg()
+  const searchParams = useSearchParams()
+  const typeParam = searchParams.get("type")?.toLowerCase() || ""
+  const typeConfig = typeParam in galleryTypeConfig
+    ? galleryTypeConfig[typeParam as keyof typeof galleryTypeConfig]
+    : null
+  const fixedMediaType = typeConfig?.fixedType
+  const pageTitle = typeConfig?.title || "Gallery"
+  const pageDescription = typeConfig?.description || "Manage images, videos, and audio"
+  const emptyTitle = typeConfig?.emptyTitle || "No media yet"
+  const emptyDescription = typeConfig?.emptyDescription || "Add media to display on your boards."
+  const addLabel = typeConfig?.addLabel || "Add Media"
+  const EmptyIcon = typeConfig?.icon || Image
   const [items, setItems] = useState<GalleryItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -36,25 +107,34 @@ export default function GalleryPage() {
   // Form state
   const [title, setTitle] = useState("")
   const [mediaUrl, setMediaUrl] = useState("")
-  const [mediaType, setMediaType] = useState<"image" | "video">("image")
+  const [mediaType, setMediaType] = useState<MediaType>(fixedMediaType || "image")
   const [isActive, setIsActive] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!currentOrg) return
-    loadItems()
-  }, [currentOrg])
+    loadItems(fixedMediaType)
+  }, [currentOrg, fixedMediaType])
 
-  async function loadItems() {
+  useEffect(() => {
+    setMediaType(fixedMediaType || "image")
+  }, [fixedMediaType])
+
+  async function loadItems(typeFilter?: MediaType) {
     if (!currentOrg) return
     setIsLoading(true)
     const supabase = createClient()
-    const { data } = await supabase
+    let query = supabase
       .from("gallery")
       .select("*")
       .eq("organization_id", currentOrg.id)
-      .order("display_order", { ascending: true })
+
+    if (typeFilter) {
+      query = query.eq("media_type", typeFilter)
+    }
+
+    const { data } = await query.order("display_order", { ascending: true })
     
     setItems(data || [])
     setIsLoading(false)
@@ -63,7 +143,7 @@ export default function GalleryPage() {
   function openCreateModal() {
     setTitle("")
     setMediaUrl("")
-    setMediaType("image")
+    setMediaType(fixedMediaType || "image")
     setIsActive(true)
     setFormError(null)
     setIsModalOpen(true)
@@ -96,7 +176,7 @@ export default function GalleryPage() {
 
     setIsSaving(false)
     setIsModalOpen(false)
-    loadItems()
+    loadItems(fixedMediaType)
   }
 
   async function handleDelete(id: string) {
@@ -104,7 +184,7 @@ export default function GalleryPage() {
     
     const supabase = createClient()
     await supabase.from("gallery").delete().eq("id", id)
-    loadItems()
+    loadItems(fixedMediaType)
   }
 
   async function handleToggleActive(item: GalleryItem) {
@@ -113,14 +193,21 @@ export default function GalleryPage() {
       .from("gallery")
       .update({ is_active: !item.is_active })
       .eq("id", item.id)
-    loadItems()
+    loadItems(fixedMediaType)
   }
+
+  const mediaPlaceholder =
+    mediaType === "video"
+      ? "https://youtube.com/watch?v=..."
+      : mediaType === "audio"
+      ? "https://example.com/audio.mp3"
+      : "https://example.com/image.jpg"
 
   return (
     <div className="flex flex-col">
       <AdminHeader 
-        title="Gallery" 
-        description="Manage images and videos"
+        title={pageTitle} 
+        description={pageDescription}
       />
 
       <div className="flex-1 p-6">
@@ -130,7 +217,7 @@ export default function GalleryPage() {
           </p>
           <Button onClick={openCreateModal}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Media
+            {addLabel}
           </Button>
         </div>
 
@@ -140,14 +227,14 @@ export default function GalleryPage() {
           </div>
         ) : items.length === 0 ? (
           <Card className="py-12 text-center">
-            <Image className="mx-auto h-12 w-12 text-muted-foreground" />
-            <h3 className="mt-4 text-lg font-medium">No gallery items yet</h3>
+            <EmptyIcon className="mx-auto h-12 w-12 text-muted-foreground" />
+            <h3 className="mt-4 text-lg font-medium">{emptyTitle}</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Add images or videos to display on your boards.
+              {emptyDescription}
             </p>
             <Button onClick={openCreateModal} className="mt-4">
               <Plus className="mr-2 h-4 w-4" />
-              Add Media
+              {addLabel}
             </Button>
           </Card>
         ) : (
@@ -158,6 +245,10 @@ export default function GalleryPage() {
                   {item.media_type === "video" ? (
                     <div className="flex h-full items-center justify-center">
                       <Video className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                  ) : item.media_type === "audio" ? (
+                    <div className="flex h-full items-center justify-center">
+                      <Music className="h-8 w-8 text-muted-foreground" />
                     </div>
                   ) : (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -204,9 +295,9 @@ export default function GalleryPage() {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add Media</DialogTitle>
+            <DialogTitle>{addLabel}</DialogTitle>
             <DialogDescription>
-              Add an image or video to your gallery.
+              {pageDescription}
             </DialogDescription>
           </DialogHeader>
 
@@ -227,24 +318,37 @@ export default function GalleryPage() {
               />
             </div>
 
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="mediaType">Media Type</Label>
-              <Select value={mediaType} onValueChange={(v) => setMediaType(v as "image" | "video")}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="image">Image</SelectItem>
-                  <SelectItem value="video">Video</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {fixedMediaType ? (
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="mediaType">Media Type</Label>
+                <Input
+                  id="mediaType"
+                  value={mediaTypeLabels[fixedMediaType]}
+                  disabled
+                  className="bg-muted"
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="mediaType">Media Type</Label>
+                <Select value={mediaType} onValueChange={(v) => setMediaType(v as MediaType)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="image">Image</SelectItem>
+                    <SelectItem value="video">Video</SelectItem>
+                    <SelectItem value="audio">Audio</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="mediaUrl">Media URL</Label>
               <Input
                 id="mediaUrl"
-                placeholder={mediaType === "video" ? "https://youtube.com/watch?v=..." : "https://example.com/image.jpg"}
+                placeholder={mediaPlaceholder}
                 value={mediaUrl}
                 onChange={(e) => setMediaUrl(e.target.value)}
               />

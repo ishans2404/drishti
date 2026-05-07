@@ -38,7 +38,13 @@ export default async function DisplayPage({ params }: DisplayPageProps) {
   ] = await Promise.all([
     supabase.from("notices").select("*").eq("organization_id", orgId).eq("is_active", true).order("display_order"),
     supabase.from("events").select("*").eq("organization_id", orgId).eq("is_active", true).order("start_date"),
-    supabase.from("gallery").select("*").eq("organization_id", orgId).eq("is_active", true).order("display_order"),
+    supabase
+      .from("gallery")
+      .select("*")
+      .eq("organization_id", orgId)
+      .eq("is_active", true)
+      .in("media_type", ["image", "video", "audio"])
+      .order("display_order"),
     supabase.from("birthdays").select("*").eq("organization_id", orgId).eq("is_active", true).order("date"),
     supabase.from("achievements").select("*").eq("organization_id", orgId).eq("is_active", true).order("created_at", { ascending: false }),
     supabase.from("holidays").select("*").eq("organization_id", orgId).eq("is_active", true).order("date"),

@@ -160,7 +160,7 @@ export default function NoticesPage() {
   return (
     <div className="flex flex-col">
       <AdminHeader 
-        title="Notices" 
+        title="Notice Board" 
         description="Manage announcements and notices"
       />
 
@@ -171,7 +171,7 @@ export default function NoticesPage() {
           </p>
           <Button onClick={openCreateModal}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Notice
+            Add Notice Board Item
           </Button>
         </div>
 
@@ -182,13 +182,13 @@ export default function NoticesPage() {
         ) : notices.length === 0 ? (
           <Card className="py-12 text-center">
             <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
-            <h3 className="mt-4 text-lg font-medium">No notices yet</h3>
+            <h3 className="mt-4 text-lg font-medium">No notice board items yet</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Create your first notice to display on your boards.
+              Create your first notice board item to display.
             </p>
             <Button onClick={openCreateModal} className="mt-4">
               <Plus className="mr-2 h-4 w-4" />
-              Add Notice
+              Add Notice Board Item
             </Button>
           </Card>
         ) : (

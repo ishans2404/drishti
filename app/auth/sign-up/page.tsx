@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSupabaseConfig } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -22,6 +22,13 @@ export default function SignUpPage() {
     e.preventDefault()
     setIsLoading(true)
     setError(null)
+
+    const { supabaseUrl, supabaseKey } = getSupabaseConfig()
+    if (!supabaseUrl || !supabaseKey) {
+      setError("Supabase is not configured. Check your NEXT_PUBLIC_SUPABASE_URL and key env vars.")
+      setIsLoading(false)
+      return
+    }
 
     const supabase = createClient()
     const { error } = await supabase.auth.signUp({

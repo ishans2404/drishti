@@ -30,7 +30,7 @@ export function EventsModule({ events }: EventsModuleProps) {
     <div className="flex h-full flex-col">
       <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold">
         <Calendar className="h-8 w-8 text-green-400" />
-        Upcoming Events
+        News & Events
       </h2>
       <div className="flex-1 overflow-y-auto">
         <div className="flex flex-col gap-4">

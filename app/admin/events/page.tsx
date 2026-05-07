@@ -169,8 +169,8 @@ export default function EventsPage() {
   return (
     <div className="flex flex-col">
       <AdminHeader 
-        title="Events" 
-        description="Manage upcoming events"
+        title="News/Event Master" 
+        description="Manage news and event updates"
       />
 
       <div className="flex-1 p-6">
@@ -180,7 +180,7 @@ export default function EventsPage() {
           </p>
           <Button onClick={openCreateModal}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Event
+            Add News/Event
           </Button>
         </div>
 
@@ -191,13 +191,13 @@ export default function EventsPage() {
         ) : events.length === 0 ? (
           <Card className="py-12 text-center">
             <Calendar className="mx-auto h-12 w-12 text-muted-foreground" />
-            <h3 className="mt-4 text-lg font-medium">No events yet</h3>
+            <h3 className="mt-4 text-lg font-medium">No news or events yet</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Create your first event to display on your boards.
+              Create your first news or event item for display.
             </p>
             <Button onClick={openCreateModal} className="mt-4">
               <Plus className="mr-2 h-4 w-4" />
-              Add Event
+              Add News/Event
             </Button>
           </Card>
         ) : (

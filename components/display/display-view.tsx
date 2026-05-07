@@ -45,20 +45,7 @@ interface DisplayViewProps {
 
 export function DisplayView({ initialData }: DisplayViewProps) {
   const [data, setData] = useState(initialData)
-  const [currentModuleIndex, setCurrentModuleIndex] = useState(0)
-
-  const enabledModules = data.display.layout_config.modules
-
-  // Auto-rotate modules every 15 seconds
-  useEffect(() => {
-    if (enabledModules.length <= 1) return
-
-    const interval = setInterval(() => {
-      setCurrentModuleIndex((prev) => (prev + 1) % enabledModules.length)
-    }, 15000)
-
-    return () => clearInterval(interval)
-  }, [enabledModules.length])
+  const enabledModules = data.display.layout_config?.modules || []
 
   // Real-time updates via Supabase
   useEffect(() => {
@@ -88,7 +75,13 @@ export function DisplayView({ initialData }: DisplayViewProps) {
         "postgres_changes",
         { event: "*", schema: "public", table: "gallery", filter: `organization_id=eq.${orgId}` },
         async () => {
-          const { data: gallery } = await supabase.from("gallery").select("*").eq("organization_id", orgId).eq("is_active", true).order("display_order")
+          const { data: gallery } = await supabase
+            .from("gallery")
+            .select("*")
+            .eq("organization_id", orgId)
+            .eq("is_active", true)
+            .in("media_type", ["image", "video", "audio"])
+            .order("display_order")
           setData((prev) => ({ ...prev, gallery: gallery || [] }))
         }
       )
@@ -106,8 +99,6 @@ export function DisplayView({ initialData }: DisplayViewProps) {
       supabase.removeChannel(channel)
     }
   }, [data.display.organization_id])
-
-  const currentModule = enabledModules[currentModuleIndex]
 
   function renderModule(moduleName: string) {
     switch (moduleName) {
@@ -134,6 +125,13 @@ export function DisplayView({ initialData }: DisplayViewProps) {
     }
   }
 
+  const moduleCards = enabledModules
+    .map((moduleName) => ({
+      key: moduleName,
+      content: renderModule(moduleName),
+    }))
+    .filter((module) => module.content)
+
   return (
     <div className="flex h-screen flex-col bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       {/* Emergency Alerts Banner */}
@@ -159,25 +157,23 @@ export function DisplayView({ initialData }: DisplayViewProps) {
 
       {/* Main Content */}
       <main className="flex-1 overflow-hidden p-8">
-        <div className="h-full rounded-2xl bg-white/5 p-6 backdrop-blur-sm">
-          {renderModule(currentModule)}
+        <div className="grid h-full auto-rows-fr gap-6 rounded-2xl bg-white/5 p-6 backdrop-blur-sm md:grid-cols-2 xl:grid-cols-3">
+          {moduleCards.length === 0 ? (
+            <div className="flex h-full items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/60">
+              No modules enabled for this display.
+            </div>
+          ) : (
+            moduleCards.map((module) => (
+              <section
+                key={module.key}
+                className="flex min-h-0 flex-col rounded-xl border border-white/10 bg-black/20 p-4"
+              >
+                {module.content}
+              </section>
+            ))
+          )}
         </div>
       </main>
-
-      {/* Footer with module indicators */}
-      <footer className="flex items-center justify-center gap-2 border-t border-white/10 bg-white/5 px-8 py-3">
-        {enabledModules.map((mod, index) => (
-          <button
-            key={mod}
-            onClick={() => setCurrentModuleIndex(index)}
-            className={`h-2 w-8 rounded-full transition-all ${
-              index === currentModuleIndex
-                ? "bg-white"
-                : "bg-white/30 hover:bg-white/50"
-            }`}
-          />
-        ))}
-      </footer>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { AdminHeader } from "@/components/admin/header"
 import { useOrg } from "@/lib/org-context"
 import { createClient } from "@/lib/supabase/client"
@@ -28,10 +29,10 @@ import {
 import { Plus, MoreVertical, Copy, ExternalLink, Trash2, Pencil, Monitor, Check } from "lucide-react"
 
 const moduleOptions: { value: ModuleType; label: string }[] = [
-  { value: "notices", label: "Notices" },
-  { value: "events", label: "Events" },
+  { value: "notices", label: "Notice Board" },
+  { value: "events", label: "News/Event Master" },
   { value: "timetable", label: "Timetable" },
-  { value: "gallery", label: "Gallery" },
+  { value: "gallery", label: "Photo Gallery" },
   { value: "birthdays", label: "Birthdays" },
   { value: "achievements", label: "Achievements" },
   { value: "holidays", label: "Holidays" },
@@ -41,6 +42,8 @@ const moduleOptions: { value: ModuleType; label: string }[] = [
 
 export default function DisplaysPage() {
   const { currentOrg } = useOrg()
+  const searchParams = useSearchParams()
+  const isSectionMode = searchParams.get("mode") === "sections"
   const [displays, setDisplays] = useState<Display[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -171,15 +174,21 @@ export default function DisplaysPage() {
   return (
     <div className="flex flex-col">
       <AdminHeader 
-        title="Displays" 
-        description="Manage your digital display boards"
+        title={isSectionMode ? "Section Show/Hide" : "Displays"} 
+        description={
+          isSectionMode
+            ? "Enable or disable sections for each display"
+            : "Manage your digital display boards"
+        }
       />
 
       <div className="flex-1 p-6">
         <div className="mb-6 flex items-center justify-between">
           <div>
             <p className="text-sm text-muted-foreground">
-              Create displays and share the public links with anyone.
+              {isSectionMode
+                ? "Toggle which modules appear on each display."
+                : "Create displays and share the public links with anyone."}
             </p>
           </div>
           <Button onClick={openCreateModal}>

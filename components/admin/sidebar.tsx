@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import {
   LayoutDashboard,
@@ -15,10 +15,16 @@ import {
   AlertTriangle,
   Code,
   Monitor,
-  Settings,
   LogOut,
   Building2,
   ChevronDown,
+  Users,
+  Video,
+  Music,
+  ToggleLeft,
+  LayoutTemplate,
+  SlidersHorizontal,
+  Settings,
 } from "lucide-react"
 import { useOrg } from "@/lib/org-context"
 import { createClient } from "@/lib/supabase/client"
@@ -31,22 +37,93 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 
-const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/displays", label: "Displays", icon: Monitor },
-  { href: "/admin/notices", label: "Notices", icon: FileText },
-  { href: "/admin/events", label: "Events", icon: Calendar },
-  { href: "/admin/timetable", label: "Timetable", icon: Clock },
-  { href: "/admin/gallery", label: "Gallery", icon: Image },
-  { href: "/admin/birthdays", label: "Birthdays", icon: Cake },
-  { href: "/admin/achievements", label: "Achievements", icon: Trophy },
-  { href: "/admin/holidays", label: "Holidays", icon: Palmtree },
-  { href: "/admin/alerts", label: "Emergency Alerts", icon: AlertTriangle },
-  { href: "/admin/custom", label: "Custom Content", icon: Code },
+type NavItem = {
+  href: string
+  label: string
+  icon: typeof LayoutDashboard
+  match?: {
+    path: string
+    type?: string
+    mode?: string
+  }
+}
+
+const navSections: Array<{ title: string; items: NavItem[] }> = [
+  {
+    title: "Main",
+    items: [
+      { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+      { href: "/admin/displays", label: "Displays", icon: Monitor },
+      { href: "/admin/notices", label: "Notice Board", icon: FileText },
+      { href: "/admin/events", label: "News/Event Master", icon: Calendar },
+      {
+        href: "/admin/gallery?type=photo",
+        label: "Photo Gallery",
+        icon: Image,
+        match: { path: "/admin/gallery", type: "photo" },
+      },
+    ],
+  },
+  {
+    title: "Legacy Modules",
+    items: [
+      { href: "/admin/under-users", label: "Under Users", icon: Users },
+      { href: "/admin/settings", label: "Screen Info", icon: Settings },
+      {
+        href: "/admin/gallery?type=header",
+        label: "Header Right Side",
+        icon: Image,
+        match: { path: "/admin/gallery", type: "header" },
+      },
+      {
+        href: "/admin/gallery?type=slider",
+        label: "Image Slider",
+        icon: SlidersHorizontal,
+        match: { path: "/admin/gallery", type: "slider" },
+      },
+      {
+        href: "/admin/gallery?type=video",
+        label: "Video Gallery",
+        icon: Video,
+        match: { path: "/admin/gallery", type: "video" },
+      },
+      {
+        href: "/admin/gallery?type=audio",
+        label: "Audio Master",
+        icon: Music,
+        match: { path: "/admin/gallery", type: "audio" },
+      },
+      {
+        href: "/admin/displays?mode=sections",
+        label: "Section Show/Hide",
+        icon: ToggleLeft,
+        match: { path: "/admin/displays", mode: "sections" },
+      },
+      { href: "/admin/template-preview", label: "Template Preview", icon: LayoutTemplate },
+      {
+        href: "/admin/custom?type=footer",
+        label: "Footer Master",
+        icon: FileText,
+        match: { path: "/admin/custom", type: "footer" },
+      },
+    ],
+  },
+  {
+    title: "Additional Modules",
+    items: [
+      { href: "/admin/timetable", label: "Timetable", icon: Clock },
+      { href: "/admin/birthdays", label: "Birthdays", icon: Cake },
+      { href: "/admin/achievements", label: "Achievements", icon: Trophy },
+      { href: "/admin/holidays", label: "Holidays", icon: Palmtree },
+      { href: "/admin/alerts", label: "Emergency Alerts", icon: AlertTriangle },
+      { href: "/admin/custom", label: "Custom Content", icon: Code },
+    ],
+  },
 ]
 
 export function AdminSidebar() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const { organizations, currentOrg, setCurrentOrg } = useOrg()
   const router = useRouter()
 
@@ -101,41 +178,47 @@ export function AdminSidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto p-4">
-        <ul className="flex flex-col gap-1">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
-                    isActive
-                      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                  )}
-                >
-                  <item.icon className="h-4 w-4" />
-                  {item.label}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+        {navSections.map((section) => (
+          <div key={section.title} className="mb-6">
+            <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-widest text-sidebar-foreground/50">
+              {section.title}
+            </p>
+            <ul className="flex flex-col gap-1">
+              {section.items.map((item) => {
+                const matchPath = item.match?.path || item.href.split("?")[0]
+                const matchType = item.match?.type
+                const matchMode = item.match?.mode
+                const activeType = searchParams.get("type")
+                const activeMode = searchParams.get("mode")
+                const isActive =
+                  pathname === matchPath &&
+                  (matchType ? activeType === matchType : !activeType) &&
+                  (matchMode ? activeMode === matchMode : !activeMode)
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                        isActive
+                          ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                          : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                      )}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {item.label}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        ))}
       </nav>
 
       {/* Footer */}
       <div className="border-t border-sidebar-border p-4">
         <ul className="flex flex-col gap-1">
-          <li>
-            <Link
-              href="/admin/settings"
-              className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            >
-              <Settings className="h-4 w-4" />
-              Settings
-            </Link>
-          </li>
           <li>
             <button
               onClick={handleSignOut}

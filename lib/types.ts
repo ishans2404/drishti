@@ -72,7 +72,7 @@ export interface GalleryItem {
   organization_id: string
   title: string | null
   media_url: string
-  media_type: 'image' | 'video'
+  media_type: "image" | "video" | "audio" | "header" | "slider"
   is_active: boolean
   display_order: number
   created_at: string

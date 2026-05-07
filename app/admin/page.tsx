@@ -74,7 +74,7 @@ export default function AdminDashboardPage() {
     <div className="flex flex-col">
       <AdminHeader 
         title="Dashboard" 
-        description={`Welcome to ${currentOrg?.name || "your organization"}`}
+        description="Welcome to Admin Panel"
       />
       
       <div className="flex-1 p-6">
@@ -151,19 +151,19 @@ export default function AdminDashboardPage() {
               <Button asChild variant="outline" className="justify-start">
                 <Link href="/admin/notices">
                   <FileText className="mr-2 h-4 w-4" />
-                  Add Notice
+                  Add Notice Board Item
                 </Link>
               </Button>
               <Button asChild variant="outline" className="justify-start">
                 <Link href="/admin/events">
                   <Calendar className="mr-2 h-4 w-4" />
-                  Create Event
+                  Add News/Event
                 </Link>
               </Button>
               <Button asChild variant="outline" className="justify-start">
-                <Link href="/admin/gallery">
+                <Link href="/admin/gallery?type=photo">
                   <Image className="mr-2 h-4 w-4" />
-                  Upload to Gallery
+                  Upload to Photo Gallery
                 </Link>
               </Button>
             </CardContent>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import type { GalleryItem } from "@/lib/types"
-import { Image, ChevronLeft, ChevronRight } from "lucide-react"
+import { Image, ChevronLeft, ChevronRight, Music, Video } from "lucide-react"
 
 interface GalleryModuleProps {
   items: GalleryItem[]
@@ -37,12 +37,22 @@ export function GalleryModule({ items }: GalleryModuleProps) {
     <div className="flex h-full flex-col">
       <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold">
         <Image className="h-8 w-8 text-purple-400" />
-        Gallery
+        Photo Gallery
       </h2>
       <div className="relative flex-1 overflow-hidden rounded-xl">
         {currentItem.media_type === "video" ? (
           <div className="flex h-full items-center justify-center bg-black/50">
-            <p className="text-white/60">Video: {currentItem.media_url}</p>
+            <div className="flex flex-col items-center gap-2 text-white/60">
+              <Video className="h-10 w-10" />
+              <p>Video content</p>
+            </div>
+          </div>
+        ) : currentItem.media_type === "audio" ? (
+          <div className="flex h-full items-center justify-center bg-black/40">
+            <div className="flex flex-col items-center gap-2 text-white/70">
+              <Music className="h-10 w-10" />
+              <p>{currentItem.title || "Audio content"}</p>
+            </div>
           </div>
         ) : (
           // eslint-disable-next-line @next/next/no-img-element

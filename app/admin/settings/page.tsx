@@ -41,15 +41,15 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col">
       <AdminHeader 
-        title="Settings" 
-        description="Manage your organization settings"
+        title="Screen Info" 
+        description="Manage organization profile details"
       />
 
       <div className="flex-1 p-6">
         <div className="mx-auto max-w-2xl">
           <Card>
             <CardHeader>
-              <CardTitle>Organization Details</CardTitle>
+              <CardTitle>Screen Information</CardTitle>
               <CardDescription>
                 Update your organization information
               </CardDescription>

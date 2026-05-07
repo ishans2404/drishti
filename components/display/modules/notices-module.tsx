@@ -21,7 +21,7 @@ export function NoticesModule({ notices }: NoticesModuleProps) {
     <div className="flex h-full flex-col">
       <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold">
         <FileText className="h-8 w-8 text-blue-400" />
-        Notices
+        Notice Board
       </h2>
       <div className="flex-1 overflow-y-auto">
         <div className="grid gap-4 sm:grid-cols-2">
