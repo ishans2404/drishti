@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f8fb;
+  --foreground: #182033;
+  --card: #ffffff;
+  --card-foreground: #182033;
+  --muted: #eef2f7;
+  --muted-foreground: #667085;
+  --border: #d9e0ea;
+  --input: #d9e0ea;
+  --primary: #2457d6;
+  --primary-foreground: #ffffff;
+  --accent: #0f9f9a;
+  --accent-foreground: #ffffff;
+  --destructive: #d92d20;
+  --destructive-foreground: #ffffff;
+  --ring: #2457d6;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #101418;
+  --foreground: #edf2f7;
+  --card: #171d24;
+  --card-foreground: #edf2f7;
+  --muted: #222a34;
+  --muted-foreground: #9aa7b6;
+  --border: #2e3845;
+  --input: #2e3845;
+  --primary: #5f7fff;
+  --primary-foreground: #ffffff;
+  --accent: #27c5b8;
+  --accent-foreground: #071312;
+  --destructive: #ff5a4f;
+  --destructive-foreground: #ffffff;
+  --ring: #5f7fff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.canvas-grid {
+  background-image:
+    linear-gradient(to right, rgba(36, 87, 214, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(36, 87, 214, 0.08) 1px, transparent 1px);
+  background-size: 5% 8.888%;
+}
+
+.kiosk-ticker {
+  animation: ticker 26s linear infinite;
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
