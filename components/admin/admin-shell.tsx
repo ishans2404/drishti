@@ -13,8 +13,6 @@ import {
   PanelLeft,
   Palette,
   ScreenShare,
-  Settings,
-  Sparkles,
   SunMoon
 } from "lucide-react"
 import { useState } from "react"
@@ -24,14 +22,34 @@ import type { Organization } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { cn, getInitials } from "@/lib/utils"
 
-const navItems = [
-  { href: "/admin", label: "Overview", icon: LayoutDashboard },
-  { href: "/admin/displays", label: "Displays", icon: Monitor },
-  { href: "/admin/displays", label: "Builder", icon: ScreenShare },
-  { href: "/admin/content", label: "Content Library", icon: FileText },
-  { href: "/admin/media", label: "Media Library", icon: Images },
-  { href: "/admin/templates", label: "Templates", icon: Palette },
-  { href: "/admin/organization", label: "Organization", icon: Settings }
+const navGroups = [
+  {
+    label: "Dashboard",
+    items: [
+      { href: "/admin",       label: "Overview",         icon: LayoutDashboard }
+    ]
+  },
+  {
+    label: "Displays",
+    items: [
+      { href: "/admin/displays",   label: "Manage Displays", icon: Monitor },
+      { href: "/admin/displays",   label: "Builder",          icon: ScreenShare, matchBuilder: true },
+      { href: "/admin/templates",  label: "Templates",        icon: Palette }
+    ]
+  },
+  {
+    label: "Content",
+    items: [
+      { href: "/admin/content", label: "Content Library", icon: FileText },
+      { href: "/admin/media",   label: "Media Library",   icon: Images }
+    ]
+  },
+  {
+    label: "Settings",
+    items: [
+      { href: "/admin/organization", label: "Organization", icon: Building2 }
+    ]
+  }
 ]
 
 export function AdminShell({
@@ -44,7 +62,7 @@ export function AdminShell({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
-  const router = useRouter()
+  const router   = useRouter()
   const { setTheme, resolvedTheme } = useTheme()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -53,119 +71,184 @@ export function AdminShell({
     router.refresh()
   }
 
+  function isActive(href: string, matchBuilder?: boolean) {
+    if (matchBuilder) return pathname.includes("/builder")
+    if (href === "/admin") return pathname === "/admin"
+    return pathname.startsWith(href + "/") || pathname === href
+      ? !pathname.includes("/builder") || matchBuilder
+      : false
+  }
+
   return (
     <div className="min-h-screen bg-background">
+
+      {/* ── Sidebar ─────────────────────────────────────────── */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-border bg-card transition-transform lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-40 flex w-64 flex-col",
+          "border-r transition-transform lg:translate-x-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
+        style={{ background: "var(--sidebar-bg)", borderColor: "var(--sidebar-border)" }}
       >
-        <div className="flex h-16 items-center gap-3 border-b border-border px-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-sm font-bold text-primary-foreground">
+        {/* Logo */}
+        <div
+          className="flex h-14 items-center gap-3 px-4 border-b"
+          style={{ borderColor: "var(--sidebar-border)" }}
+        >
+          <div
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded text-xs font-bold"
+            style={{ background: "var(--accent)", color: "#fff" }}
+          >
             DR
           </div>
-          <div className="min-w-0">
-            <div className="font-semibold">Drishti</div>
-            <div className="text-xs text-muted-foreground">Digital notice boards</div>
+          <div>
+            <div className="text-sm font-bold text-white tracking-wide">DRISHTI</div>
+            <div className="text-[10px]" style={{ color: "var(--sidebar-fg)" }}>
+              Digital Notice Board System
+            </div>
           </div>
         </div>
 
-        <div className="border-b border-border p-4">
-          <label className="mb-2 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Workspace
-          </label>
+        {/* Org switcher */}
+        <div className="px-3 py-3 border-b" style={{ borderColor: "var(--sidebar-border)" }}>
+          <div
+            className="mb-1 text-[10px] font-semibold uppercase tracking-widest"
+            style={{ color: "var(--sidebar-fg)", opacity: 0.6 }}
+          >
+            Organization
+          </div>
           <div className="relative">
-            <Building2 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Building2
+              className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2"
+              style={{ color: "var(--sidebar-fg)" }}
+            />
             <select
               value={currentOrg?.id || ""}
-              onChange={(event) => selectOrganization(event.target.value)}
-              className="h-10 w-full appearance-none rounded-md border border-input bg-background pl-9 pr-9 text-sm outline-none focus:ring-2 focus:ring-ring"
+              onChange={(e) => selectOrganization(e.target.value)}
+              className="h-8 w-full appearance-none rounded border pl-8 pr-7 text-xs outline-none"
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                borderColor: "var(--sidebar-border)",
+                color: "#fff"
+              }}
             >
-              {organizations.map((organization) => (
-                <option key={organization.id} value={organization.id}>
-                  {organization.name}
+              {organizations.map((org) => (
+                <option key={org.id} value={org.id} style={{ background: "#0f2347", color: "#fff" }}>
+                  {org.name}
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <ChevronDown
+              className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2"
+              style={{ color: "var(--sidebar-fg)" }}
+            />
           </div>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto p-3">
-          {navItems.map((item) => {
-            const active =
-              item.label === "Builder"
-                ? pathname.includes("/builder")
-                : pathname === item.href ||
-                  (item.href !== "/admin" && pathname.startsWith(`${item.href}/`) && !pathname.includes("/builder"))
-            return (
-              <Link
-                key={`${item.label}-${item.href}`}
-                href={item.href}
-                onClick={() => setSidebarOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                  active
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                )}
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-4">
+          {navGroups.map((group) => (
+            <div key={group.label}>
+              <div
+                className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-widest"
+                style={{ color: "var(--sidebar-fg)", opacity: 0.45 }}
               >
-                <item.icon className="h-4 w-4" />
-                {item.label}
-              </Link>
-            )
-          })}
+                {group.label}
+              </div>
+              <div className="space-y-0.5">
+                {group.items.map((item) => {
+                  const active = isActive(item.href, item.matchBuilder)
+                  return (
+                    <Link
+                      key={`${item.label}-${item.href}`}
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={cn("sidebar-link", active && "active")}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0" />
+                      {item.label}
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
-        <div className="border-t border-border p-4">
-          <div className="mb-3 flex items-center gap-3 rounded-md bg-muted p-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent text-sm font-bold text-accent-foreground">
+        {/* User footer */}
+        <div className="border-t p-3" style={{ borderColor: "var(--sidebar-border)" }}>
+          <div
+            className="mb-2 flex items-center gap-2 rounded px-2 py-2"
+            style={{ background: "rgba(255,255,255,0.04)" }}
+          >
+            <div
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded text-[11px] font-bold"
+              style={{ background: "var(--sidebar-active-bg)", color: "#fff" }}
+            >
               {getInitials(currentOrg?.name)}
             </div>
             <div className="min-w-0">
-              <div className="truncate text-sm font-medium">{currentOrg?.name || "No organization"}</div>
-              <div className="truncate text-xs text-muted-foreground">/{currentOrg?.slug || "workspace"}</div>
+              <div className="truncate text-xs font-medium text-white">
+                {currentOrg?.name || "No organization"}
+              </div>
+              <div className="truncate text-[10px]" style={{ color: "var(--sidebar-fg)", opacity: 0.6 }}>
+                /{currentOrg?.slug || "workspace"}
+              </div>
             </div>
           </div>
           <form action={signOutAction}>
-            <Button variant="outline" className="w-full justify-start" type="submit">
-              <LogOut className="h-4 w-4" />
+            <button
+              type="submit"
+              className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-xs transition-colors hover:bg-white/10"
+              style={{ color: "var(--sidebar-fg)" }}
+            >
+              <LogOut className="h-3.5 w-3.5" />
               Sign out
-            </Button>
+            </button>
           </form>
         </div>
       </aside>
 
-      {sidebarOpen ? (
+      {/* Overlay */}
+      {sidebarOpen && (
         <button
           aria-label="Close sidebar"
-          className="fixed inset-0 z-30 bg-black/25 lg:hidden"
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
-      ) : null}
+      )}
 
-      <div className="lg:pl-72">
-        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-border bg-background/90 px-4 backdrop-blur sm:px-6">
+      {/* ── Main area ────────────────────────────────────────── */}
+      <div className="lg:pl-64">
+        {/* Top bar */}
+        <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b bg-card px-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(true)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setSidebarOpen(true)}
+            >
               <PanelLeft className="h-5 w-5" />
             </Button>
-            <div className="hidden items-center gap-2 text-sm text-muted-foreground sm:flex">
-              <Sparkles className="h-4 w-4 text-accent" />
-              <span>Single-page kiosk displays, managed centrally.</span>
-            </div>
+            {/* Breadcrumb path */}
+            <span className="hidden text-xs text-muted-foreground sm:block">
+              {currentOrg?.name || "Drishti"} &rsaquo; Digital Signage Management
+            </span>
           </div>
           <Button
             variant="outline"
             size="sm"
-            type="button"
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
           >
             <SunMoon className="h-4 w-4" />
-            Theme
+            <span className="hidden sm:inline">
+              {resolvedTheme === "dark" ? "Light mode" : "Dark mode"}
+            </span>
           </Button>
         </header>
+
         <main>{children}</main>
       </div>
     </div>

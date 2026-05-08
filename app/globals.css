@@ -1,103 +1,149 @@
 @import "tailwindcss";
 
+/* ── Light (default) ─────────────────────────────────────── */
 :root {
-  --background: #f6f8fb;
-  --foreground: #182033;
-  --card: #ffffff;
-  --card-foreground: #182033;
-  --muted: #eef2f7;
-  --muted-foreground: #667085;
-  --border: #d9e0ea;
-  --input: #d9e0ea;
-  --primary: #2457d6;
+  /* Government blue palette */
+  --background:         #f4f6f9;
+  --foreground:         #0d1b2e;
+  --card:               #ffffff;
+  --card-foreground:    #0d1b2e;
+  --muted:              #eaeff5;
+  --muted-foreground:   #5a6a7e;
+  --border:             #d0dae6;
+  --input:              #d0dae6;
+
+  /* Deep government blue */
+  --primary:            #1a3a6e;
   --primary-foreground: #ffffff;
-  --accent: #0f9f9a;
-  --accent-foreground: #ffffff;
-  --destructive: #d92d20;
+
+  /* Gold accent — official / institutional */
+  --accent:             #b8861a;
+  --accent-foreground:  #ffffff;
+
+  --destructive:        #c0392b;
   --destructive-foreground: #ffffff;
-  --ring: #2457d6;
-  --radius: 0.5rem;
+
+  --ring:               #1a3a6e;
+  --radius:             0.375rem;
+
+  /* Sidebar-specific */
+  --sidebar-bg:         #0f2347;
+  --sidebar-fg:         #c8d8ed;
+  --sidebar-active-bg:  #1e4080;
+  --sidebar-active-fg:  #ffffff;
+  --sidebar-border:     rgba(255,255,255,0.08);
 }
 
+/* ── Dark ────────────────────────────────────────────────── */
 .dark {
-  --background: #101418;
-  --foreground: #edf2f7;
-  --card: #171d24;
-  --card-foreground: #edf2f7;
-  --muted: #222a34;
-  --muted-foreground: #9aa7b6;
-  --border: #2e3845;
-  --input: #2e3845;
-  --primary: #5f7fff;
+  --background:         #0d1520;
+  --foreground:         #e8edf4;
+  --card:               #141f30;
+  --card-foreground:    #e8edf4;
+  --muted:              #1c2b3f;
+  --muted-foreground:   #8a9ab0;
+  --border:             #263348;
+  --input:              #263348;
+
+  --primary:            #3b6ec8;
   --primary-foreground: #ffffff;
-  --accent: #27c5b8;
-  --accent-foreground: #071312;
-  --destructive: #ff5a4f;
+
+  --accent:             #c8a84b;
+  --accent-foreground:  #0d1b2e;
+
+  --destructive:        #e05252;
   --destructive-foreground: #ffffff;
-  --ring: #5f7fff;
+
+  --ring:               #3b6ec8;
+
+  --sidebar-bg:         #091322;
+  --sidebar-fg:         #a8bdd4;
+  --sidebar-active-bg:  #1a3a6e;
+  --sidebar-active-fg:  #ffffff;
+  --sidebar-border:     rgba(255,255,255,0.06);
 }
 
+/* ── Tailwind theme bridge ───────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --color-background:            var(--background);
+  --color-foreground:            var(--foreground);
+  --color-card:                  var(--card);
+  --color-card-foreground:       var(--card-foreground);
+  --color-muted:                 var(--muted);
+  --color-muted-foreground:      var(--muted-foreground);
+  --color-border:                var(--border);
+  --color-input:                 var(--input);
+  --color-primary:               var(--primary);
+  --color-primary-foreground:    var(--primary-foreground);
+  --color-accent:                var(--accent);
+  --color-accent-foreground:     var(--accent-foreground);
+  --color-destructive:           var(--destructive);
+  --color-destructive-foreground:var(--destructive-foreground);
+  --color-ring:                  var(--ring);
+  --color-sidebar-bg:            var(--sidebar-bg);
+  --color-sidebar-fg:            var(--sidebar-fg);
+  --radius-sm:  calc(var(--radius) - 2px);
+  --radius-md:  var(--radius);
+  --radius-lg:  calc(var(--radius) + 2px);
 }
 
-* {
-  border-color: var(--border);
-}
+* { border-color: var(--border); box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  letter-spacing: 0;
+  font-family: "Inter", "Segoe UI", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
+button, input, select, textarea { font: inherit; }
 
+/* ── Builder canvas grid ─────────────────────────────────── */
 .canvas-grid {
   background-image:
-    linear-gradient(to right, rgba(36, 87, 214, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(36, 87, 214, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgba(26,58,110,0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26,58,110,0.07) 1px, transparent 1px);
   background-size: 5% 8.888%;
 }
 
-.kiosk-ticker {
-  animation: ticker 26s linear infinite;
+/* ── Ticker animation ────────────────────────────────────── */
+.kiosk-ticker { animation: ticker 30s linear infinite; }
+@keyframes ticker {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(-100%); }
 }
 
-@keyframes ticker {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+/* ── Sidebar link styles (used via className) ────────────── */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sidebar-fg);
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
 }
+.sidebar-link:hover {
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+}
+.sidebar-link.active {
+  background: var(--sidebar-active-bg);
+  color: var(--sidebar-active-fg);
+}
+
+/* ── Card elevation levels ───────────────────────────────── */
+.card-elevated {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* ── Data table zebra ────────────────────────────────────── */
+.data-row:nth-child(even) { background: var(--muted); }

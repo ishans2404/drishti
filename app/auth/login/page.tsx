@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
-import { MonitorPlay } from "lucide-react"
+import { Shield } from "lucide-react"
 import { signInAction } from "@/lib/actions/auth"
 import { createClient } from "@/lib/supabase/server"
 import { Button } from "@/components/ui/button"
@@ -13,78 +13,149 @@ export default async function LoginPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const params = await searchParams
+  const params  = await searchParams
   const supabase = await createClient()
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-
+  const { data: { user } } = await supabase.auth.getUser()
   if (user) redirect("/admin")
 
-  const error = typeof params.error === "string" ? decodeURIComponent(params.error) : null
+  const error   = typeof params.error   === "string" ? decodeURIComponent(params.error) : null
   const created = params.created
-  const next = typeof params.next === "string" ? params.next : "/admin"
+  const next    = typeof params.next    === "string" ? params.next : "/admin"
 
   return (
-    <main className="grid min-h-screen bg-background lg:grid-cols-[0.95fr_1.05fr]">
-      <section className="hidden bg-[#111820] p-10 text-white lg:flex lg:flex-col lg:justify-between">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary text-sm font-bold">DR</div>
-          <div>
-            <div className="font-semibold">Drishti</div>
-            <div className="text-xs text-white/50">Display command center</div>
-          </div>
-        </Link>
-        <div>
-          <MonitorPlay className="mb-6 h-12 w-12 text-[#f6b73c]" />
-          <h1 className="max-w-xl text-4xl font-semibold leading-tight">Manage every digital notice board from one place.</h1>
-          <p className="mt-4 max-w-md text-sm leading-6 text-white/60">
-            Sign in to publish notices, assign media, adjust templates, and keep public display links fresh.
-          </p>
-        </div>
-        <div className="text-xs text-white/35">Drishti SaaS platform</div>
-      </section>
+    <main className="min-h-screen flex flex-col" style={{ background: "#f0f4f9" }}>
 
-      <section className="flex items-center justify-center px-5 py-10">
-        <div className="w-full max-w-md">
-          <Link href="/" className="mb-8 flex items-center gap-3 lg:hidden">
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary text-sm font-bold text-primary-foreground">DR</div>
-            <div className="font-semibold">Drishti</div>
-          </Link>
-          <div className="mb-8">
-            <h1 className="text-3xl font-semibold">Welcome back</h1>
-            <p className="mt-2 text-sm text-muted-foreground">Use your admin email and password to continue.</p>
+      {/* Top government bar */}
+      <div
+        className="h-1.5 w-full"
+        style={{ background: "linear-gradient(90deg, #1a3a6e 0%, #b8861a 100%)" }}
+      />
+
+      {/* Header band */}
+      <div
+        className="flex items-center gap-4 px-8 py-4 border-b"
+        style={{ background: "#0f2347", borderColor: "#1e3a6e" }}
+      >
+        <div
+          className="flex h-10 w-10 items-center justify-center rounded font-bold text-base"
+          style={{ background: "#b8861a", color: "#fff" }}
+        >
+          DR
+        </div>
+        <div>
+          <div className="text-base font-bold text-white tracking-wide">DRISHTI</div>
+          <div className="text-xs" style={{ color: "#8aaad0" }}>
+            Digital Notice Board Management System
           </div>
-          {error ? (
-            <div className="mb-4 rounded-md border border-destructive/25 bg-destructive/10 p-3 text-sm text-destructive">
-              {error}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="flex flex-1 items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md">
+
+          {/* Card */}
+          <div
+            className="rounded-lg border bg-white shadow-md"
+            style={{ borderColor: "#d0dae6" }}
+          >
+            {/* Card header */}
+            <div
+              className="flex items-center gap-3 rounded-t-lg px-6 py-5 border-b"
+              style={{ background: "#f8fafc", borderColor: "#d0dae6" }}
+            >
+              <div
+                className="flex h-9 w-9 items-center justify-center rounded"
+                style={{ background: "#1a3a6e" }}
+              >
+                <Shield className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <div className="text-base font-semibold" style={{ color: "#0d1b2e" }}>
+                  Administrator Login
+                </div>
+                <div className="text-xs" style={{ color: "#5a6a7e" }}>
+                  Enter your credentials to access the control panel
+                </div>
+              </div>
             </div>
-          ) : null}
-          {created ? (
-            <div className="mb-4 rounded-md border border-emerald-500/25 bg-emerald-500/10 p-3 text-sm text-emerald-700 dark:text-emerald-300">
-              Workspace created. Confirm your email if Supabase requires it, then sign in.
+
+            {/* Card body */}
+            <div className="px-6 py-6">
+              {error && (
+                <div className="mb-4 rounded border px-3 py-2.5 text-sm"
+                  style={{ background: "#fef2f2", borderColor: "#fca5a5", color: "#c0392b" }}>
+                  {error}
+                </div>
+              )}
+              {created && (
+                <div className="mb-4 rounded border px-3 py-2.5 text-sm"
+                  style={{ background: "#f0fdf4", borderColor: "#86efac", color: "#166534" }}>
+                  Account created. Please verify your email if required, then sign in.
+                </div>
+              )}
+
+              <form action={signInAction} className="space-y-4">
+                <input type="hidden" name="next" value={next} />
+
+                <div className="space-y-1">
+                  <label className="block text-xs font-semibold uppercase tracking-wide"
+                    style={{ color: "#5a6a7e" }} htmlFor="email">
+                    Email Address
+                  </label>
+                  <Input
+                    id="email" name="email" type="email"
+                    placeholder="admin@organization.gov.in" required
+                    className="h-9"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block text-xs font-semibold uppercase tracking-wide"
+                    style={{ color: "#5a6a7e" }} htmlFor="password">
+                    Password
+                  </label>
+                  <Input
+                    id="password" name="password" type="password"
+                    required className="h-9"
+                  />
+                </div>
+
+                <Button
+                  className="w-full h-9 text-sm font-semibold tracking-wide"
+                  type="submit"
+                  style={{ background: "#1a3a6e" }}
+                >
+                  Sign In
+                </Button>
+              </form>
+
+              <div className="mt-5 border-t pt-4" style={{ borderColor: "#eaeff5" }}>
+                <p className="text-center text-xs" style={{ color: "#5a6a7e" }}>
+                  New administrator?{" "}
+                  <Link href="/auth/sign-up"
+                    className="font-semibold hover:underline" style={{ color: "#1a3a6e" }}>
+                    Create workspace
+                  </Link>
+                </p>
+              </div>
             </div>
-          ) : null}
-          <form action={signInAction} className="space-y-4">
-            <input type="hidden" name="next" value={next} />
-            <div className="space-y-2">
-              <label className="text-sm font-medium" htmlFor="email">Email</label>
-              <Input id="email" name="email" type="email" placeholder="admin@organization.org" required />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium" htmlFor="password">Password</label>
-              <Input id="password" name="password" type="password" required />
-            </div>
-            <Button className="w-full" type="submit">Sign in</Button>
-          </form>
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            New to Drishti?{" "}
-            <Link className="font-medium text-primary hover:underline" href="/auth/sign-up">
-              Create an admin workspace
-            </Link>
+          </div>
+
+          {/* Footer note */}
+          <p className="mt-4 text-center text-xs" style={{ color: "#8a9ab0" }}>
+            Authorized users only. All access is logged.
           </p>
         </div>
-      </section>
+      </div>
+
+      {/* Footer */}
+      <div
+        className="border-t px-8 py-3 text-center text-xs"
+        style={{ background: "#0f2347", borderColor: "#1e3a6e", color: "#6a8ab0" }}
+      >
+        Drishti — Digital Signage Management System &nbsp;|&nbsp; Powered by Global Infotech
+      </div>
     </main>
   )
 }

@@ -1,134 +1,251 @@
 import Link from "next/link"
-import { ArrowRight, BellRing, Building2, Clock3, MonitorPlay, PanelsTopLeft, UploadCloud } from "lucide-react"
+import { ArrowRight, BellRing, Building2, Monitor, UploadCloud, PanelsTopLeft, MonitorPlay } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+
+const features = [
+  {
+    icon: Monitor,
+    title: "Centralized Display Management",
+    description:
+      "Manage all digital notice boards across departments and locations from a single administration dashboard."
+  },
+  {
+    icon: BellRing,
+    title: "Real-Time Announcements",
+    description:
+      "Push notices, alerts, and events instantly. Content updates propagate to all assigned displays within seconds."
+  },
+  {
+    icon: UploadCloud,
+    title: "Rich Media Support",
+    description:
+      "Upload images, videos, and audio. Assign media to specific displays or broadcast across all locations."
+  },
+  {
+    icon: PanelsTopLeft,
+    title: "Template-Based Layout Builder",
+    description:
+      "Choose from preset templates for lobbies, hospitals, schools, and offices. Drag zones to customize each display."
+  },
+  {
+    icon: Building2,
+    title: "Multi-Organization Support",
+    description:
+      "Manage multiple institutions from one account. Switch between organizations with a single click."
+  },
+  {
+    icon: MonitorPlay,
+    title: "Public Kiosk Links",
+    description:
+      "Each display gets a shareable URL. Visitors need no login — open on any screen, TV, or kiosk."
+  }
+]
 
 const previewNotices = [
-  "Blood donation camp at 11:00 AM",
-  "New safety SOP document published",
-  "OPD queue updates now visible on lobby screen"
+  "OPD timings updated: Monday–Saturday, 9:00 AM – 5:00 PM",
+  "Blood donation camp — Hall A, 25 May 2026, 10:00 AM",
+  "New safety SOP document published — refer noticeboard"
 ]
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-[#f7f9fc] text-[#172033]">
-      <section className="relative min-h-[92vh] overflow-hidden bg-[#101418] text-white">
-        <div className="absolute inset-x-0 top-20 mx-auto h-[68vh] w-[94vw] max-w-7xl overflow-hidden rounded-lg border border-white/12 bg-[#0b1118] shadow-2xl md:right-[-10vw] md:left-auto md:w-[72vw]">
-          <div className="absolute inset-0 grid grid-cols-[1.2fr_0.8fr] gap-3 p-4 opacity-80">
-            <div className="flex flex-col overflow-hidden rounded-md bg-[#132233]">
-              <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+    <main className="min-h-screen" style={{ background: "#f0f4f9", color: "#0d1b2e" }}>
+
+      {/* Top accent stripe */}
+      <div className="h-1.5 w-full"
+        style={{ background: "linear-gradient(90deg, #1a3a6e 0%, #b8861a 100%)" }} />
+
+      {/* Header */}
+      <header
+        className="flex items-center justify-between px-6 py-3 border-b sm:px-10"
+        style={{ background: "#0f2347", borderColor: "#1e3a6e" }}
+      >
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded font-bold text-sm"
+            style={{ background: "#b8861a", color: "#fff" }}>
+            DR
+          </div>
+          <div>
+            <div className="text-sm font-bold text-white tracking-wider">DRISHTI</div>
+            <div className="text-[10px]" style={{ color: "#8aaad0" }}>
+              Digital Notice Board System
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button asChild variant="ghost" className="text-white text-sm hover:bg-white/10 h-8 px-3">
+            <Link href="/auth/login">Sign In</Link>
+          </Button>
+          <Button asChild className="h-8 px-4 text-sm font-semibold"
+            style={{ background: "#b8861a", color: "#fff" }}>
+            <Link href="/auth/sign-up">Get Started</Link>
+          </Button>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section
+        className="relative overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #0f2347 0%, #1a3a6e 60%, #1e4a8a 100%)" }}
+      >
+        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20 sm:px-10 lg:flex lg:items-center lg:gap-12">
+
+          {/* Text */}
+          <div className="lg:flex-1">
+            <div
+              className="mb-4 inline-block rounded px-3 py-1 text-xs font-semibold uppercase tracking-widest"
+              style={{ background: "rgba(184,134,26,0.25)", color: "#c8a84b" }}
+            >
+              Digital Signage Platform
+            </div>
+            <h1 className="text-3xl font-bold leading-snug text-white sm:text-4xl lg:text-5xl">
+              Manage Digital Notice Boards
+              <br />
+              <span style={{ color: "#c8a84b" }}>Across Every Location</span>
+            </h1>
+            <p className="mt-4 max-w-xl text-sm leading-7" style={{ color: "#8aaad0" }}>
+              Drishti provides hospitals, schools, and government offices a unified
+              web dashboard to publish announcements, media, documents, and events
+              to digital screens — centrally controlled, instantly updated.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Button asChild className="h-9 px-5 text-sm font-semibold"
+                style={{ background: "#b8861a", color: "#fff" }}>
+                <Link href="/auth/sign-up">
+                  Create Workspace <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline"
+                className="h-9 px-5 text-sm border-white/25 text-white hover:bg-white/10">
+                <Link href="/auth/login">Administrator Login</Link>
+              </Button>
+            </div>
+          </div>
+
+          {/* Mock display */}
+          <div className="mt-12 lg:mt-0 lg:flex-1">
+            <div
+              className="rounded-lg border overflow-hidden shadow-2xl"
+              style={{ background: "#101820", borderColor: "rgba(255,255,255,0.12)" }}
+            >
+              {/* Display header */}
+              <div className="flex items-center justify-between border-b px-4 py-3"
+                style={{ background: "#132233", borderColor: "rgba(255,255,255,0.08)" }}>
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#2457d6] text-xs font-bold">DR</div>
-                  <div>
-                    <div className="text-sm font-semibold">City Hospital Lobby</div>
-                    <div className="text-xs text-white/45">Live display preview</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded text-xs font-bold"
+                    style={{ background: "#1a3a6e", color: "#fff" }}>
+                    DH
                   </div>
-                </div>
-                <div className="text-right text-xs text-white/50">
-                  <Clock3 className="mb-1 ml-auto h-4 w-4" />
-                  10:24 AM
-                </div>
-              </div>
-              <div className="grid flex-1 grid-rows-[1fr_auto]">
-                <div className="m-4 flex items-end rounded-md bg-[#1d6f69] p-5">
                   <div>
-                    <div className="mb-2 text-xs uppercase tracking-wider text-white/60">Awareness screen</div>
-                    <div className="max-w-sm text-3xl font-semibold leading-tight">Real-time updates across every screen.</div>
-                  </div>
-                </div>
-                <div className="mx-4 mb-4 overflow-hidden rounded-md bg-[#f6b73c] px-3 py-2 text-sm font-medium text-[#172033]">
-                  <div className="kiosk-ticker whitespace-nowrap">Emergency contacts updated • New event schedule published • Main lobby display active</div>
-                </div>
-              </div>
-            </div>
-            <div className="hidden flex-col gap-3 overflow-hidden md:flex">
-              <div className="rounded-md bg-white p-3 text-[#172033]">
-                <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
-                  <BellRing className="h-4 w-4 text-[#2457d6]" />
-                  Notice Board
-                </div>
-                <div className="space-y-2">
-                  {previewNotices.map((notice) => (
-                    <div key={notice} className="rounded-md bg-[#f1f5fa] p-2 text-xs">
-                      {notice}
+                    <div className="text-sm font-semibold text-white">District Hospital — Main Lobby</div>
+                    <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.45)" }}>
+                      Live display preview
                     </div>
-                  ))}
+                  </div>
+                </div>
+                <div className="text-right text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>
+                  LIVE
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { label: "Media", detail: "Images, video, audio", icon: UploadCloud, color: "text-[#f6b73c]" },
-                  { label: "Builder", detail: "Resize zones", icon: PanelsTopLeft, color: "text-[#27c5b8]" },
-                  { label: "Orgs", detail: "Switch locations", icon: Building2, color: "text-[#9bb6ff]" },
-                  { label: "Public link", detail: "No login needed", icon: MonitorPlay, color: "text-[#f6b73c]" }
-                ].map((item) => (
-                  <div key={item.label} className="rounded-md bg-white/10 p-3">
-                    <item.icon className={`mb-3 h-5 w-5 ${item.color}`} />
-                    <div className="text-sm font-semibold">{item.label}</div>
-                    <div className="text-xs text-white/50">{item.detail}</div>
+              {/* Content grid */}
+              <div className="grid grid-cols-[1fr_200px] gap-3 p-3">
+                {/* Hero zone */}
+                <div className="rounded flex items-end p-4"
+                  style={{ background: "linear-gradient(135deg,#1a3a6e,#0f9f9a)", minHeight: 140 }}>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.6)" }}>
+                      Health Awareness
+                    </div>
+                    <div className="text-base font-bold text-white leading-snug mt-1">
+                      Real-time updates<br />across every screen.
+                    </div>
                   </div>
-                ))}
+                </div>
+                {/* Notice rail */}
+                <div className="rounded p-3" style={{ background: "rgba(255,255,255,0.06)" }}>
+                  <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-white">
+                    <BellRing className="h-3.5 w-3.5" style={{ color: "#c8a84b" }} />
+                    Notice Board
+                  </div>
+                  <div className="space-y-1.5">
+                    {previewNotices.map((n) => (
+                      <div key={n} className="rounded p-1.5 text-[10px] text-white leading-snug"
+                        style={{ background: "rgba(255,255,255,0.08)" }}>
+                        {n}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Ticker */}
+              <div className="overflow-hidden px-3 py-2 text-xs font-semibold"
+                style={{ background: "#c8a84b", color: "#0d1b2e" }}>
+                Emergency contacts updated &nbsp;•&nbsp; New event schedule published &nbsp;•&nbsp; Main lobby display active
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <div className="absolute inset-0 bg-[#101418]/35" />
+      {/* Trusted by band */}
+      <div className="border-y py-4 text-center text-xs font-semibold uppercase tracking-widest"
+        style={{ borderColor: "#d0dae6", color: "#8a9ab0", background: "#fff" }}>
+        Trusted by Hospitals · Schools · Government Departments · Public Institutions
+      </div>
 
-        <div className="relative z-10 flex min-h-[92vh] flex-col">
-          <header className="flex items-center justify-between px-5 py-5 sm:px-8 lg:px-12">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-white text-sm font-bold text-[#2457d6]">
-                DR
+      {/* Features */}
+      <section className="mx-auto max-w-7xl px-6 py-14 sm:px-10">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl font-bold" style={{ color: "#0d1b2e" }}>
+            Platform Capabilities
+          </h2>
+          <p className="mt-2 text-sm" style={{ color: "#5a6a7e" }}>
+            Everything needed to deploy and manage digital notice boards at scale.
+          </p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((f) => (
+            <div key={f.title}
+              className="rounded-lg border bg-white p-5 card-elevated"
+              style={{ borderColor: "#d0dae6" }}>
+              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded"
+                style={{ background: "#eef2f7" }}>
+                <f.icon className="h-5 w-5" style={{ color: "#1a3a6e" }} />
               </div>
-              <div>
-                <div className="font-semibold">Drishti</div>
-                <div className="text-xs text-white/60">Digital notice boards</div>
-              </div>
+              <div className="text-sm font-semibold" style={{ color: "#0d1b2e" }}>{f.title}</div>
+              <p className="mt-1.5 text-xs leading-5" style={{ color: "#5a6a7e" }}>{f.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="border-t py-12 text-center" style={{ borderColor: "#d0dae6", background: "#fff" }}>
+        <h2 className="text-xl font-bold" style={{ color: "#0d1b2e" }}>
+          Ready to deploy digital notice boards?
+        </h2>
+        <p className="mt-2 text-sm" style={{ color: "#5a6a7e" }}>
+          Create your administrator workspace and first display in under two minutes.
+        </p>
+        <div className="mt-6 flex justify-center gap-3">
+          <Button asChild className="h-9 px-6 text-sm font-semibold"
+            style={{ background: "#1a3a6e" }}>
+            <Link href="/auth/sign-up">
+              Create Workspace <ArrowRight className="h-4 w-4" />
             </Link>
-            <div className="flex items-center gap-2">
-              <Button asChild variant="ghost" className="text-white hover:bg-white/10">
-                <Link href="/auth/login">Login</Link>
-              </Button>
-              <Button asChild className="bg-white text-[#172033] hover:bg-white/90">
-                <Link href="/auth/sign-up">Start</Link>
-              </Button>
-            </div>
-          </header>
-
-          <div className="flex flex-1 items-end px-5 pb-14 sm:px-8 lg:px-12">
-            <div className="max-w-2xl">
-              <Badge className="mb-5 bg-white/10 text-white ring-1 ring-white/15">Modern display board platform</Badge>
-              <h1 className="text-4xl font-semibold leading-tight tracking-normal sm:text-5xl lg:text-6xl">
-                Digital notice boards for every location.
-              </h1>
-              <p className="mt-5 max-w-xl text-base leading-7 text-white/78 sm:text-lg">
-                Drishti gives hospitals, schools, and offices one web dashboard for announcements,
-                media, documents, templates, and public kiosk links.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="bg-[#f6b73c] text-[#172033] hover:bg-[#f4aa18]">
-                  <Link href="/auth/sign-up">
-                    Create workspace
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="border-white/25 text-white hover:bg-white/10">
-                  <Link href="/auth/login">Open admin</Link>
-                </Button>
-              </div>
-            </div>
-          </div>
+          </Button>
         </div>
       </section>
 
-      <section className="grid gap-4 px-5 py-8 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:px-12">
-        {["Centralized control", "Realtime updates", "Template builder", "Public kiosk links"].map((item) => (
-          <div key={item} className="rounded-lg border border-border bg-white p-4">
-            <div className="text-sm font-semibold">{item}</div>
-          </div>
-        ))}
-      </section>
+      {/* Footer */}
+      <footer className="border-t px-6 py-4 sm:px-10"
+        style={{ background: "#0f2347", borderColor: "#1e3a6e" }}>
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs"
+          style={{ color: "#6a8ab0" }}>
+          <span>© 2026 Drishti — Digital Signage Management System</span>
+          <span>Powered by Global Infotech, Durg</span>
+        </div>
+      </footer>
     </main>
   )
 }
