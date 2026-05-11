@@ -126,14 +126,23 @@ export async function getDisplayPayload(displayId: string): Promise<DisplayPaylo
 
 export async function getPublicDisplayPayload(slug: string): Promise<DisplayPayload | null> {
   const supabase = await createClient()
+
   const { data: display } = await supabase
     .from("displays")
-    .select("*, organizations(*)")
+    .select("*")
     .eq("slug", slug)
     .eq("is_active", true)
     .maybeSingle()
 
-  if (!display || !display.organizations) return null
+  if (!display) return null
+
+  const { data: organization } = await supabase
+    .from("organizations")
+    .select("*")
+    .eq("id", (display as Display).organization_id)
+    .maybeSingle()
+
+  if (!organization) return null
 
   const [{ data: contentRows }, { data: mediaRows }] = await Promise.all([
     supabase
@@ -152,7 +161,7 @@ export async function getPublicDisplayPayload(slug: string): Promise<DisplayPayl
       layout_config: mergeLayoutWithTemplate((display as Display).layout_config, (display as Display).template_key),
       theme_config: { ...defaultTheme, ...((display as Display).theme_config || {}) }
     },
-    organization: display.organizations as Organization,
+    organization: organization as Organization,
     contentItems: ((contentRows || [])
       .map((row) => row.content_items)
       .filter(Boolean) || []) as unknown as ContentItem[],
